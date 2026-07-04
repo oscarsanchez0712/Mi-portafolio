@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Proyectos — Oscar Heyton{% endblock %}
+{% block content %}
+<section id="proyectos">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-tag">— PORTAFOLIO —</span>
+      <h2 class="section-title">Mis Proyectos</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="filter-btns" data-aos="fade-up">
+      <button class="filter-btn active" data-filter="all">Todos</button>
+      <button class="filter-btn" data-filter="frontend">Frontend</button>
+      <button class="filter-btn" data-filter="backend">Backend</button>
+      <button class="filter-btn" data-filter="fullstack">Full Stack</button>
+    </div>
+
+    <!-- Grid -->
+    <div class="projects-grid" id="projectsGrid">
+      {% set icons = ['fa-code','fa-database','fa-chart-bar','fa-shopping-cart','fa-globe','fa-store','fa-blog'] %}
+      {% for p in projects %}
+      <div class="project-card" data-category="{{ p.category }}" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 80 }}">
+        <div class="project-img" style="font-size:3.5rem;">
+          <i class="fas {{ icons[loop.index0 % icons|length] }}" style="color:rgba(0,174,255,0.4);"></i>
+          <div class="project-img-overlay"></div>
+        </div>
+        <div class="project-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
+            <h3 class="project-name">{{ p.name }}</h3>
+            <span style="font-size:0.65rem;padding:0.2rem 0.6rem;border-radius:50px;background:rgba(0,174,255,0.1);border:1px solid rgba(0,174,255,0.3);color:var(--neon-blue);font-family:var(--font-display);letter-spacing:1px;">
+              {{ p.category.upper() }}
+            </span>
+          </div>
+          <p class="project-desc">{{ p.desc }}</p>
+          <div class="project-tech">
+            {% for t in p.tech %}<span class="tech-tag">{{ t }}</span>{% endfor %}
+          </div>
+          <div class="project-btns">
+            <a href="#" class="btn-sm btn-sm-primary"><i class="fas fa-external-link-alt"></i> Demo</a>
+            <a href="#" class="btn-sm btn-sm-outline"><i class="fab fa-github"></i> Código</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  // Filtros de proyectos
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.project-card').forEach(card => {
+        if (filter === 'all' || card.dataset.category === filter) {
+          card.style.display = '';
+          card.style.animation = 'fadeIn 0.4s ease';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}

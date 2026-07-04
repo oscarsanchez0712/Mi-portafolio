@@ -1,0 +1,556 @@
+{% extends "base.html" %}
+{% block title %}Mi Familia 👨‍👩‍👧‍👦 — Oscar Heyton{% endblock %}
+
+{% block extra_head %}
+<style>
+  #familia {
+    background: linear-gradient(180deg, var(--bg-dark) 0%, rgba(139,92,246,0.05) 50%, var(--bg-dark) 100%);
+    padding: 6rem 2rem 4rem;
+    min-height: 100vh;
+  }
+  .familia-layout {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+  /* LEFT SIDEBAR */
+  .familia-sidebar-left { display: flex; flex-direction: column; gap: 1rem; }
+
+  .familia-title-block { margin-bottom: 0.5rem; }
+  .familia-title {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #ec4899, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+  .familia-quote {
+    font-family: var(--font-body);
+    color: var(--text-secondary);
+    font-style: italic;
+    font-size: 0.95rem;
+    border-left: 3px solid rgba(168,85,247,0.5);
+    padding-left: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .familia-action-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .btn-familia {
+    padding: 0.6rem 1.2rem;
+    border-radius: 50px;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s;
+  }
+  .btn-familia-pink { background: rgba(236,72,153,0.15); border: 1px solid rgba(236,72,153,0.4); color: #ec4899; }
+  .btn-familia-purple { background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.4); color: #a855f7; }
+  .btn-familia-pink:hover { background: rgba(236,72,153,0.3); }
+  .btn-familia-purple:hover { background: rgba(168,85,247,0.3); }
+
+  /* STATS */
+  .familia-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    padding: 1.25rem;
+    background: rgba(10,15,30,0.6);
+    border: 1px solid rgba(168,85,247,0.2);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+  }
+  .familia-stat { text-align: center; }
+  .familia-stat-num {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #a855f7;
+  }
+  .familia-stat-label { font-size: 0.65rem; color: var(--text-muted); font-family: var(--font-display); letter-spacing: 1px; margin-top: 2px; }
+
+  /* GALLERY */
+  .gallery-section {
+    background: rgba(10,15,30,0.6);
+    border: 1px solid rgba(168,85,247,0.2);
+    border-radius: 16px;
+    padding: 1.25rem;
+    backdrop-filter: blur(10px);
+  }
+  .gallery-section-title {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    color: #a855f7;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .gallery-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .gallery-mini-item {
+    aspect-ratio: 1;
+    border-radius: 10px;
+    background: rgba(168,85,247,0.08);
+    border: 1px solid rgba(168,85,247,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    overflow: hidden;
+  }
+  .gallery-mini-item:hover { border-color: rgba(236,72,153,0.5); transform: scale(1.03); }
+  .gallery-mini-item img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* CENTER — MAIN PHOTO */
+  .familia-center { display: flex; flex-direction: column; gap: 1rem; }
+  .familia-main-photo-frame {
+    border-radius: 20px;
+    border: 2px solid rgba(236,72,153,0.5);
+    box-shadow: 0 0 40px rgba(168,85,247,0.25), 0 0 80px rgba(236,72,153,0.1), inset 0 0 30px rgba(168,85,247,0.05);
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    background: rgba(10,15,30,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .familia-main-photo-frame::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, rgba(236,72,153,0.6), rgba(168,85,247,0.6), rgba(6,182,212,0.3));
+    z-index: -1;
+    animation: borderGlow 3s ease-in-out infinite alternate;
+  }
+  @keyframes borderGlow {
+    from { opacity: 0.5; }
+    to { opacity: 1; }
+  }
+  .familia-main-photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+  .familia-main-placeholder {
+    display: flex; flex-direction: column; align-items: center; gap: 1rem;
+    color: rgba(168,85,247,0.4);
+  }
+  .familia-main-placeholder i { font-size: 5rem; }
+  .familia-main-placeholder span { font-family: var(--font-display); font-size: 0.7rem; letter-spacing: 3px; }
+
+  /* MEMBERS */
+  .members-section {
+    background: rgba(10,15,30,0.6);
+    border: 1px solid rgba(168,85,247,0.2);
+    border-radius: 16px;
+    padding: 1.25rem;
+    backdrop-filter: blur(10px);
+  }
+  .members-title {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    color: #a855f7;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .members-grid { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; }
+  .member-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 80px;
+  }
+  .member-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 2px solid rgba(168,85,247,0.4);
+    background: rgba(168,85,247,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .member-avatar:hover { border-color: #ec4899; box-shadow: 0 0 20px rgba(236,72,153,0.3); }
+  .member-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .member-name { font-family: var(--font-display); font-size: 0.72rem; color: var(--text-primary); letter-spacing: 1px; text-align: center; }
+  .member-role { font-size: 0.62rem; color: var(--text-muted); text-align: center; }
+
+  /* RIGHT SIDEBAR */
+  .familia-sidebar-right { display: flex; flex-direction: column; gap: 1rem; }
+
+  .historia-card, .frase-card, .musica-card {
+    background: rgba(10,15,30,0.6);
+    border: 1px solid rgba(168,85,247,0.2);
+    border-radius: 16px;
+    padding: 1.25rem;
+    backdrop-filter: blur(10px);
+  }
+  .card-header-title {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    color: #ec4899;
+    letter-spacing: 2px;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .historia-text { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
+  .historia-icon {
+    font-size: 4rem;
+    color: rgba(168,85,247,0.3);
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  .frase-text {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    line-height: 1.7;
+    border-left: 2px solid rgba(236,72,153,0.4);
+    padding-left: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .frase-heart {
+    font-size: 3rem;
+    text-align: center;
+    color: rgba(236,72,153,0.3);
+  }
+
+  /* TIMELINE */
+  .timeline-section {
+    background: rgba(10,15,30,0.6);
+    border: 1px solid rgba(168,85,247,0.2);
+    border-radius: 16px;
+    padding: 1.25rem;
+    backdrop-filter: blur(10px);
+    grid-column: 1 / 3;
+  }
+  .timeline-horiz {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin-top: 1rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+  .timeline-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    min-width: 120px;
+    position: relative;
+  }
+  .timeline-step::after {
+    content: '';
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(236,72,153,0.6), rgba(168,85,247,0.3));
+  }
+  .timeline-step:last-child::after { display: none; }
+  .timeline-dot-horiz {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 2px solid rgba(236,72,153,0.6);
+    background: rgba(10,15,30,0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: #ec4899;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+  }
+  .timeline-year { font-family: var(--font-display); font-size: 0.75rem; color: #a855f7; margin-top: 0.5rem; }
+  .timeline-desc-horiz { font-size: 0.65rem; color: var(--text-muted); text-align: center; margin-top: 0.25rem; line-height: 1.4; padding: 0 0.5rem; }
+
+  /* BOTTOM ROW */
+  .familia-bottom {
+    max-width: 1300px;
+    margin: 1.5rem auto 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  /* MUSIC CARD */
+  .musica-disk {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(168,85,247,0.3), rgba(236,72,153,0.3));
+    border: 2px solid rgba(168,85,247,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: #a855f7;
+    flex-shrink: 0;
+    animation: diskSpin 4s linear infinite;
+    animation-play-state: paused;
+  }
+  .musica-disk.spinning { animation-play-state: running; }
+  @keyframes diskSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .musica-info { flex: 1; }
+  .musica-song { font-family: var(--font-display); font-size: 0.8rem; color: var(--text-primary); }
+  .musica-sub { font-size: 0.65rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+  .musica-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-top: 0.75rem;
+  }
+  .musica-btn {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 1px solid rgba(168,85,247,0.3);
+    background: rgba(168,85,247,0.1);
+    color: #a855f7;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+    transition: all 0.3s;
+  }
+  .musica-btn:hover { background: rgba(168,85,247,0.25); border-color: #a855f7; }
+  .musica-btn.main { width: 40px; height: 40px; background: rgba(236,72,153,0.2); border-color: rgba(236,72,153,0.5); color: #ec4899; font-size: 1rem; }
+
+  /* RESPONSIVE */
+  @media (max-width: 1100px) {
+    .familia-layout { grid-template-columns: 1fr; }
+    .familia-bottom { grid-template-columns: 1fr; }
+    .familia-stats { grid-template-columns: repeat(2, 1fr); }
+    .timeline-section { grid-column: 1; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section id="familia">
+
+  <!-- MAIN LAYOUT -->
+  <div class="familia-layout">
+
+    <!-- LEFT -->
+    <div class="familia-sidebar-left" data-aos="fade-right">
+      <div class="familia-title-block">
+        <h1 class="familia-title">Mi Familia</h1>
+        <p class="familia-quote">"La familia no es algo importante,<br>lo es todo."</p>
+        <div class="familia-action-btns">
+          <button class="btn-familia btn-familia-pink"><i class="fas fa-images"></i> Momentos únicos</button>
+          <button class="btn-familia btn-familia-purple"><i class="fas fa-heart"></i> Amor infinito</button>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="familia-stats" data-aos="fade-up" data-aos-delay="100">
+        <div class="familia-stat">
+          <div class="familia-stat-num">5</div>
+          <div class="familia-stat-label">Integrantes</div>
+        </div>
+        <div class="familia-stat">
+          <div class="familia-stat-num">12+</div>
+          <div class="familia-stat-label">Años juntos</div>
+        </div>
+        <div class="familia-stat">
+          <div class="familia-stat-num">∞</div>
+          <div class="familia-stat-label">Momentos</div>
+        </div>
+        <div class="familia-stat">
+          <div class="familia-stat-num" style="color:#ec4899;">100%</div>
+          <div class="familia-stat-label">Amor</div>
+        </div>
+      </div>
+
+      <!-- GALLERY MINI -->
+      <div class="gallery-section" data-aos="fade-up" data-aos-delay="150">
+        <div class="gallery-section-title">
+          <span><i class="fas fa-camera" style="margin-right:0.4rem;"></i>GALERÍA DE RECUERDOS</span>
+          <span style="font-size:0.7rem;color:var(--text-muted);cursor:pointer;">Ver más</span>
+        </div>
+        <div class="gallery-mini-grid">
+          {% for emoji in ['🏠','🎉','🌅','🎂','🌸','📸'] %}
+          <div class="gallery-mini-item">{{ emoji }}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTER -->
+    <div class="familia-center" data-aos="zoom-in">
+      <!-- MAIN PHOTO -->
+      <div class="familia-main-photo-frame">
+        <img src="{{ url_for('static', filename='img/familia.png') }}" alt="Mi familia" style="width:100%;height:100%;object-fit:cover;">
+      </div>
+
+      <!-- MEMBERS -->
+      <div class="members-section" data-aos="fade-up" data-aos-delay="100">
+        <div class="members-title"><i class="fas fa-users"></i> NUESTROS INTEGRANTES</div>
+        <div class="members-grid">
+          {% for m in [
+            {'name':'Papá','role':'Guía y fortaleza','emoji':'👨'},
+            {'name':'Mamá','role':'Amor y ternura','emoji':'👩'},
+            {'name':'Hermano','role':'Compañero','emoji':'👦'},
+            {'name':'Hermana','role':'Alegría y risas','emoji':'👧'},
+            {'name':'Mascota','role':'Mi fiel amigo','emoji':'🐕'},
+          ] %}
+          <div class="member-card">
+            <div class="member-avatar">{{ m.emoji }}</div>
+            <div class="member-name">{{ m.name }}</div>
+            <div class="member-role">{{ m.role }}</div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="familia-sidebar-right" data-aos="fade-left">
+      <!-- HISTORIA -->
+      <div class="historia-card">
+        <div class="card-header-title"><i class="fas fa-heart"></i> NUESTRA HISTORIA</div>
+        <p class="historia-text">
+          Cada día es una nueva oportunidad para crear recuerdos juntos.
+          Nos apoyamos, nos amamos y crecemos como familia.
+        </p>
+        <div class="historia-icon">🏠</div>
+      </div>
+
+      <!-- FRASE -->
+      <div class="frase-card">
+        <div class="card-header-title"><i class="fas fa-quote-left"></i> FRASE FAMILIAR</div>
+        <p class="frase-text">
+          "En esta familia nos apoyamos, nos respetamos y sobre todo, nos amamos incondicionalmente."
+        </p>
+        <div class="frase-heart">❤️</div>
+      </div>
+
+      <!-- MUSICA -->
+      <div class="musica-card">
+        <div class="card-header-title"><i class="fas fa-music"></i> NUESTRA MÚSICA</div>
+        <div style="display:flex;gap:1rem;align-items:center;">
+          <div class="musica-disk" id="familiaDisk">🎵</div>
+          <div class="musica-info">
+            <div class="musica-song">Canción Familiar</div>
+            <div class="musica-sub">Escuchando ahora</div>
+            <div style="height:3px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;">
+              <div id="familiaBar" style="height:100%;width:40%;background:linear-gradient(90deg,#ec4899,#a855f7);border-radius:3px;transition:width 0.5s;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="musica-controls">
+          <button class="musica-btn" type="button"><i class="fas fa-backward-step"></i></button>
+          <button class="musica-btn main" type="button" id="familiaPlayBtn" onclick="toggleFamiliaMusic()" style="position:relative;z-index:99;cursor:pointer;pointer-events:all;"><i class="fas fa-play" id="familiaPlayIcon"></i></button>
+          <button class="musica-btn" type="button"><i class="fas fa-forward-step"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM ROW -->
+  <div class="familia-bottom">
+    <!-- TIMELINE -->
+    <div class="timeline-section" style="grid-column: 1 / 3;" data-aos="fade-up">
+      <div class="card-header-title" style="font-family:var(--font-display);font-size:0.85rem;color:#a855f7;letter-spacing:2px;">
+        <i class="fas fa-timeline"></i> LÍNEA DE TIEMPO FAMILIAR
+      </div>
+      <div class="timeline-horiz">
+        {% for t in [
+          {'year':'2010','icon':'❤️','desc':'Nuestra historia comienza'},
+          {'year':'2012','icon':'🌟','desc':'Llegada de nuestro primer hijo'},
+          {'year':'2015','icon':'⭐','desc':'Nuevas aventuras en familia'},
+          {'year':'2018','icon':'📸','desc':'Momentos que marcaron'},
+          {'year':'2022+','icon':'∞','desc':'Seguimos creando recuerdos'},
+        ] %}
+        <div class="timeline-step">
+          <div class="timeline-dot-horiz">{{ t.icon }}</div>
+          <div class="timeline-year">{{ t.year }}</div>
+          <div class="timeline-desc-horiz">{{ t.desc }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- VIDEOS -->
+    <div class="gallery-section" data-aos="fade-up" data-aos-delay="100">
+      <div class="gallery-section-title">
+        <span><i class="fas fa-video" style="margin-right:0.4rem;"></i>VIDEOS FAMILIARES</span>
+        <span style="font-size:0.7rem;color:var(--text-muted);cursor:pointer;">Ver todos</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;">
+        {% for emoji in ['🌅','🌃','🎉'] %}
+        <div style="aspect-ratio:16/9;background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.25rem;cursor:pointer;transition:all 0.3s;"
+             onmouseover="this.style.borderColor='rgba(236,72,153,0.4)'"
+             onmouseout="this.style.borderColor='rgba(168,85,247,0.15)'">
+          <span style="font-size:1.5rem;">{{ emoji }}</span>
+          <i class="fas fa-play" style="font-size:0.6rem;color:rgba(255,255,255,0.3);"></i>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  var familiaMusic = null;
+  var familiaPlaying = false;
+
+  function toggleFamiliaMusic() {
+    if (!familiaMusic) {
+      familiaMusic = new Audio("{{ url_for('static', filename='audio/familia.mp3') }}");
+      familiaMusic.loop = true;
+      familiaMusic.addEventListener('timeupdate', function() {
+        var bar = document.getElementById('familiaBar');
+        if (familiaMusic.duration && bar) {
+          bar.style.width = (familiaMusic.currentTime / familiaMusic.duration * 100) + '%';
+        }
+      });
+    }
+    var disk = document.getElementById('familiaDisk');
+    var icon = document.getElementById('familiaPlayIcon');
+    if (familiaPlaying) {
+      familiaMusic.pause();
+      if (disk) disk.classList.remove('spinning');
+      if (icon) icon.className = 'fas fa-play';
+      familiaPlaying = false;
+    } else {
+      familiaMusic.play();
+      if (disk) disk.classList.add('spinning');
+      if (icon) icon.className = 'fas fa-pause';
+      familiaPlaying = true;
+    }
+  }
+</script>
+{% endblock %}

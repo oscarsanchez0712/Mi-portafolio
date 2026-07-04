@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% block title %}Contacto — Oscar Heyton{% endblock %}
+{% block content %}
+<section id="contacto">
+  <div style="max-width:1000px;margin:0 auto;">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-tag">— HABLEMOS —</span>
+      <h2 class="section-title">Hablemos Juntos 👋</h2>
+      <div class="section-line"></div>
+      <p style="color:var(--text-secondary);margin-top:1rem;max-width:500px;margin-left:auto;margin-right:auto;">
+        ¿Tienes un proyecto en mente? Estoy disponible para nuevas oportunidades.
+      </p>
+    </div>
+
+    <div class="contact-grid">
+      <!-- Info -->
+      <div data-aos="fade-right">
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+          <div>
+            <div class="contact-label">EMAIL</div>
+            <div class="contact-text">oscarheyton@example.com</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fas fa-phone"></i></div>
+          <div>
+            <div class="contact-label">TELÉFONO</div>
+            <div class="contact-text">+51 912 345 678</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fab fa-github"></i></div>
+          <div>
+            <div class="contact-label">GITHUB</div>
+            <div class="contact-text">github.com/oscarheyton</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fab fa-linkedin-in"></i></div>
+          <div>
+            <div class="contact-label">LINKEDIN</div>
+            <div class="contact-text">linkedin.com/in/oscarheyton</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0.75rem;margin-top:1.5rem;">
+          <a href="https://github.com/oscarheyton" target="_blank" class="hero-socials" style="text-decoration:none;">
+            <div style="width:44px;height:44px;border:1px solid var(--border-glass);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);background:var(--bg-glass);transition:all 0.3s;"
+                 onmouseover="this.style.color='var(--neon-blue)';this.style.borderColor='var(--neon-blue)';"
+                 onmouseout="this.style.color='var(--text-secondary)';this.style.borderColor='var(--border-glass)';">
+              <i class="fab fa-github"></i>
+            </div>
+          </a>
+          <a href="https://linkedin.com/in/oscarheyton" target="_blank">
+            <div style="width:44px;height:44px;border:1px solid var(--border-glass);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);background:var(--bg-glass);transition:all 0.3s;"
+                 onmouseover="this.style.color='var(--neon-blue)';this.style.borderColor='var(--neon-blue)';"
+                 onmouseout="this.style.color='var(--text-secondary)';this.style.borderColor='var(--border-glass)';">
+              <i class="fab fa-linkedin-in"></i>
+            </div>
+          </a>
+          <a href="https://instagram.com/oscarheyton" target="_blank">
+            <div style="width:44px;height:44px;border:1px solid var(--border-glass);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);background:var(--bg-glass);transition:all 0.3s;"
+                 onmouseover="this.style.color='var(--neon-pink)';this.style.borderColor='var(--neon-pink)';"
+                 onmouseout="this.style.color='var(--text-secondary)';this.style.borderColor='var(--border-glass)';">
+              <i class="fab fa-instagram"></i>
+            </div>
+          </a>
+          <a href="mailto:oscarheyton@example.com">
+            <div style="width:44px;height:44px;border:1px solid var(--border-glass);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);background:var(--bg-glass);transition:all 0.3s;"
+                 onmouseover="this.style.color='var(--neon-blue)';this.style.borderColor='var(--neon-blue)';"
+                 onmouseout="this.style.color='var(--text-secondary)';this.style.borderColor='var(--border-glass)';">
+              <i class="fas fa-envelope"></i>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Formulario -->
+      <div data-aos="fade-left">
+        <div class="glass-card" style="padding:2rem;">
+          <div class="form-group">
+            <label>NOMBRE</label>
+            <input type="text" id="contactName" class="form-control" placeholder="Tu nombre completo">
+          </div>
+          <div class="form-group">
+            <label>EMAIL</label>
+            <input type="email" id="contactEmail" class="form-control" placeholder="tu@correo.com">
+          </div>
+          <div class="form-group">
+            <label>ASUNTO</label>
+            <input type="text" id="contactSubject" class="form-control" placeholder="Asunto del mensaje">
+          </div>
+          <div class="form-group">
+            <label>MENSAJE</label>
+            <textarea id="contactMessage" class="form-control" rows="5" placeholder="Cuéntame sobre tu proyecto..."></textarea>
+          </div>
+          <button class="btn-submit" onclick="sendMessage()">
+            <i class="fas fa-paper-plane" style="margin-right:0.5rem;"></i> ENVIAR MENSAJE
+          </button>
+          <div class="success-msg" id="successMsg">
+            <i class="fas fa-check-circle" style="margin-right:0.5rem;"></i> ¡Mensaje enviado! Te contactaré pronto.
+          </div>
+          <div id="errorMsg" style="display:none;padding:1rem;border-radius:8px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#ef4444;text-align:center;font-family:var(--font-main);margin-top:1rem;">
+            Por favor completa todos los campos.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+async function sendMessage() {
+  const name = document.getElementById('contactName').value.trim();
+  const email = document.getElementById('contactEmail').value.trim();
+  const message = document.getElementById('contactMessage').value.trim();
+  const errorMsg = document.getElementById('errorMsg');
+  const successMsg = document.getElementById('successMsg');
+
+  errorMsg.style.display = 'none';
+  successMsg.style.display = 'none';
+
+  if (!name || !email || !message) {
+    errorMsg.style.display = 'block';
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errorMsg.textContent = 'Por favor ingresa un email válido.';
+    errorMsg.style.display = 'block';
+    return;
+  }
+
+  try {
+    const res = await fetch('/send-message', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, message })
+    });
+    const data = await res.json();
+    if (data.success) {
+      successMsg.style.display = 'block';
+      document.getElementById('contactName').value = '';
+      document.getElementById('contactEmail').value = '';
+      document.getElementById('contactMessage').value = '';
+    }
+  } catch(e) {
+    successMsg.style.display = 'block'; // Demo mode
+  }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Experiencia — Oscar Heyton{% endblock %}
+{% block content %}
+<section id="experiencia">
+  <div style="max-width:1000px;margin:0 auto;">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-tag">— TRAYECTORIA —</span>
+      <h2 class="section-title">Experiencia & Estudios</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="timeline">
+      {% for item in experience %}
+      <div class="timeline-item" data-aos="{{ 'fade-right' if loop.index is odd else 'fade-left' }}">
+        {% if loop.index is odd %}
+          <div class="timeline-content">
+            <div class="timeline-title">{{ item.title }}</div>
+            <div class="timeline-place"><i class="fas fa-map-marker-alt" style="margin-right:0.4rem;"></i>{{ item.place }}</div>
+            <p class="timeline-desc">{{ item.desc }}</p>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:0.5rem;">
+            <div class="timeline-dot"><i class="{{ item.icon }}"></i></div>
+            <div class="timeline-year-badge">{{ item.year }}</div>
+          </div>
+          <div></div>
+        {% else %}
+          <div></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:0.5rem;">
+            <div class="timeline-dot" style="border-color:var(--neon-purple);color:var(--neon-purple);box-shadow:var(--glow-purple);">
+              <i class="{{ item.icon }}"></i>
+            </div>
+            <div class="timeline-year-badge">{{ item.year }}</div>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-title" style="color:var(--neon-purple);">{{ item.title }}</div>
+            <div class="timeline-place"><i class="fas fa-map-marker-alt" style="margin-right:0.4rem;"></i>{{ item.place }}</div>
+            <p class="timeline-desc">{{ item.desc }}</p>
+          </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Certificados decorativos -->
+    <div style="margin-top:3rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;" data-aos="fade-up">
+      {% for cert in [
+        {'name':'Python Developer','icon':'fab fa-python','color':'#3776AB'},
+        {'name':'AWS Practitioner','icon':'fab fa-aws','color':'#FF9900'},
+        {'name':'Flask Backend','icon':'fas fa-flask','color':'#a855f7'},
+        {'name':'Web Full Stack','icon':'fas fa-code','color':'#06b6d4'}
+      ] %}
+      <div class="glass-card" style="padding:1.5rem;text-align:center;">
+        <div style="font-size:2.5rem;color:{{ cert.color }};margin-bottom:0.75rem;filter:drop-shadow(0 0 10px {{ cert.color }}60);">
+          <i class="{{ cert.icon }}"></i>
+        </div>
+        <div style="font-family:var(--font-display);font-size:0.85rem;color:var(--text-primary);letter-spacing:1px;">{{ cert.name }}</div>
+        <div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.25rem;">CERTIFICADO</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

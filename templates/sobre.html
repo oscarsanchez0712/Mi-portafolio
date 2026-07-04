@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Sobre Mí — Oscar Heyton{% endblock %}
+{% block content %}
+<section id="sobre">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-tag">— CONÓCEME —</span>
+      <h2 class="section-title">Sobre Mí</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-grid">
+      <!-- Imagen -->
+      <div class="about-img-wrapper" data-aos="fade-right">
+        <div class="about-img-frame" style="min-height:400px;">
+          <img src="{{ url_for('static', filename='img/perfil_sobre.png') }}" alt="Oscar programando" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">
+        </div>
+        <div class="about-corner corner-tl"></div>
+        <div class="about-corner corner-tr"></div>
+        <div class="about-corner corner-bl"></div>
+        <div class="about-corner corner-br"></div>
+      </div>
+      <!-- Texto -->
+      <div data-aos="fade-left">
+        <span class="section-tag" style="text-align:left;">— SOBRE MÍ —</span>
+        <h3 style="font-family:var(--font-display);font-size:2.2rem;font-weight:700;color:var(--text-primary);margin-bottom:1.5rem;line-height:1.2;">
+          Conóceme<br><span style="color:var(--neon-blue);">mejor</span>
+        </h3>
+        <p class="about-desc">
+          Soy estudiante de Ingeniería de Sistemas y Desarrollador Backend con Python y Flask.
+          Me gusta aprender nuevas tecnologías, resolver problemas complejos y trabajar en equipo
+          para crear soluciones innovadoras y de alto impacto.
+        </p>
+        <p class="about-desc">
+          Mi enfoque está en escribir código limpio, escalable y bien documentado.
+          Disfruto construir APIs robustas, sistemas de bases de datos eficientes y
+          aplicaciones web modernas con excelente experiencia de usuario.
+        </p>
+        <div class="about-tags">
+          <span class="about-tag">✨ Creativo</span>
+          <span class="about-tag">🎯 Responsable</span>
+          <span class="about-tag">🧠 Analítico</span>
+          <span class="about-tag">💪 Persistente</span>
+          <span class="about-tag">🚀 Proactivo</span>
+          <span class="about-tag">🤝 Colaborativo</span>
+        </div>
+        <a href="/contacto" class="btn-primary" style="display:inline-flex;">
+          <i class="fas fa-paper-plane"></i> Hablemos
+        </a>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid" style="margin-top:4rem;" data-aos="fade-up">
+      <div class="stat-card">
+        <span class="stat-number counter-anim" data-target="10">0</span>
+        <span style="color:var(--neon-blue);font-size:1.5rem;font-family:var(--font-display);">+</span>
+        <div class="stat-label">Proyectos<br>Realizados</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number counter-anim" data-target="1">0</span>
+        <span style="color:var(--neon-blue);font-size:1.5rem;font-family:var(--font-display);">+</span>
+        <div class="stat-label">Años<br>Aprendiendo</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number counter-anim" data-target="5">0</span>
+        <span style="color:var(--neon-blue);font-size:1.5rem;font-family:var(--font-display);">+</span>
+        <div class="stat-label">Tecnologías<br>Dominadas</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number counter-anim" data-target="100">0</span>
+        <span style="color:var(--neon-blue);font-size:1.5rem;font-family:var(--font-display);">%</span>
+        <div class="stat-label">Compromiso</div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

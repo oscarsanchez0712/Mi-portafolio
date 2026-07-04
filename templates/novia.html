@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% block title %}Mi Persona Especial 💖{% endblock %}
+
+{% block extra_head %}
+<style>
+  #novia { background: linear-gradient(180deg, var(--bg-dark) 0%, rgba(236,72,153,0.05) 50%, var(--bg-dark) 100%); }
+  body.novia-active .hearts-container { display: block !important; }
+</style>
+{% endblock %}
+
+{% block content %}
+<section id="novia">
+  <div class="novia-container">
+
+    <!-- HERO -->
+    <div class="novia-hero" data-aos="zoom-in">
+      <div style="font-family:var(--font-display);font-size:0.75rem;letter-spacing:4px;color:rgba(236,72,153,0.7);margin-bottom:1rem;">
+        ✨ UNA SECCIÓN ESPECIAL PARA ALGUIEN ESPECIAL ✨
+      </div>
+      <!-- Foto principal: descomenta cuando tengas la imagen -->
+      <img src="{{ url_for('static', filename='img/novia.png') }}" class="novia-main-img" alt="Mi persona especial" style="width:280px;height:280px;border-radius:50%;object-fit:cover;object-position:center top;border:3px solid rgba(236,72,153,.5);box-shadow:0 0 60px rgba(236,72,153,.3);margin:0 auto 2rem;">
+      <h1 class="novia-title">Mi Persona Especial</h1>
+      <p class="novia-subtitle" id="romanticTyped"></p>
+    </div>
+
+    <!-- CONTADOR -->
+    <div class="counter-section" data-aos="fade-up">
+      <div class="counter-title">⏱ TIEMPO JUNTOS</div>
+      <div class="counter-display">
+        <div class="counter-item">
+          <span class="counter-num" id="loveDays">0</span>
+          <div class="counter-label">DÍAS</div>
+        </div>
+        <div class="counter-item">
+          <span class="counter-num" id="loveHours">0</span>
+          <div class="counter-label">HORAS</div>
+        </div>
+        <div class="counter-item">
+          <span class="counter-num" id="loveMinutes">0</span>
+          <div class="counter-label">MINUTOS</div>
+        </div>
+        <div class="counter-item">
+          <span class="counter-num" id="loveSeconds">0</span>
+          <div class="counter-label">SEGUNDOS</div>
+        </div>
+      </div>
+      <p style="margin-top:1rem;font-size:0.8rem;color:rgba(236,72,153,0.5);font-family:var(--font-display);letter-spacing:2px;">
+        DESDE QUE ERES PARTE DE MI VIDA
+      </p>
+    </div>
+
+    <!-- CARTA + FRASES -->
+    <div class="novia-grid" data-aos="fade-up">
+      <div class="novia-card">
+        <h3 style="font-family:var(--font-display);color:var(--neon-pink);font-size:1.1rem;letter-spacing:2px;margin-bottom:1.5rem;">
+          💌 CARTA PARA TI
+        </h3>
+        <div class="love-letter">
+          <p>Para ti, mi persona especial...</p>
+          <p>Desde que llegaste a mi vida, todo tiene más color y sentido.
+             Eres mi calma en el caos, mi inspiración para mejorar cada día,
+             y la razón por la que sonrío sin motivo.</p>
+          <p>Gracias por tu paciencia, por tu amor, por estar ahí en cada momento.
+             Eres la mejor parte de mis días y la persona que más quiero en el mundo.</p>
+          <p>Juntos podemos con todo. Siempre juntos. 🌙</p>
+          <p class="signature">— Con todo mi amor, Oscar ❤️</p>
+        </div>
+      </div>
+
+      <div class="novia-card">
+        <h3 style="font-family:var(--font-display);color:var(--neon-pink);font-size:1.1rem;letter-spacing:2px;margin-bottom:1.5rem;">
+          💭 RAZONES POR LAS QUE TE AMO
+        </h3>
+        <div style="display:flex;flex-direction:column;gap:0.75rem;">
+          {% for reason in [
+            '❤️ Tu sonrisa ilumina mis días',
+            '🌙 Tu calma me da paz',
+            '✨ Tu forma de ver la vida me inspira',
+            '🤗 Tus abrazos son mi lugar favorito',
+            '💪 Tu fortaleza me hace admirarte',
+            '😂 Tu humor hace todo más divertido',
+            '🌹 Simplemente... eres tú'
+          ] %}
+          <div style="padding:0.75rem 1rem;background:rgba(236,72,153,0.06);border:1px solid rgba(236,72,153,0.15);border-radius:8px;font-size:0.9rem;color:var(--text-secondary);transition:all 0.3s;"
+               onmouseover="this.style.borderColor='rgba(236,72,153,0.4)';this.style.color='var(--text-primary)';"
+               onmouseout="this.style.borderColor='rgba(236,72,153,0.15)';this.style.color='var(--text-secondary)';">
+            {{ reason }}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- GALERÍA -->
+    <div data-aos="fade-up">
+      <h3 style="font-family:var(--font-display);font-size:1.1rem;color:var(--neon-pink);text-align:center;letter-spacing:3px;margin-bottom:2rem;">
+        📸 NUESTROS MOMENTOS
+      </h3>
+      <div class="gallery-grid">
+        {% for i in range(1, 6) %}
+        <div class="gallery-item" onclick="openModal(this)">
+          <!-- <img src="{{ url_for('static', filename='img/novia/novia' ~ i ~ '.jpg') }}" alt="Momento especial {{ i }}"> -->
+          <span style="font-size:3rem;">{{ ['💖','🌸','✨','💕','🌙'][loop.index0] }}</span>
+        </div>
+        {% endfor %}
+        <!-- Slots extra -->
+        {% for emoji in ['💝','🎀','🌺','🦋','⭐'] %}
+        <div class="gallery-item">
+          <span style="font-size:3rem;">{{ emoji }}</span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- BOTÓN TE AMO -->
+    <div style="text-align:center;margin-top:3rem;" data-aos="zoom-in">
+      <button class="btn-love" onclick="triggerLove()">
+        ❤️ TE AMO ❤️
+      </button>
+    </div>
+
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  // Activar corazones en esta página
+  document.body.classList.add('novia-active');
+
+  // Typed romántico
+  new Typed('#romanticTyped', {
+    strings: [
+      'Mi persona favorita en el mundo... 💖',
+      'La que hace latir mi corazón más fuerte... 💗',
+      'Mi calma, mi paz, mi todo... 🌙',
+      'Para siempre y un día más... ✨',
+    ],
+    typeSpeed: 60, backSpeed: 30, loop: true, backDelay: 2500,
+  });
+
+  // Contador de amor — cambia esta fecha por la real 💕
+  const startDate = new Date('2025-01-01T00:00:00');
+  function updateLoveCounter() {
+    const now = new Date();
+    const diff = now - startDate;
+    const days = Math.floor(diff / (1000*60*60*24));
+    const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+    const minutes = Math.floor((diff % (1000*60*60)) / (1000*60));
+    const seconds = Math.floor((diff % (1000*60)) / 1000);
+    document.getElementById('loveDays').textContent = days;
+    document.getElementById('loveHours').textContent = String(hours).padStart(2,'0');
+    document.getElementById('loveMinutes').textContent = String(minutes).padStart(2,'0');
+    document.getElementById('loveSeconds').textContent = String(seconds).padStart(2,'0');
+  }
+  setInterval(updateLoveCounter, 1000);
+  updateLoveCounter();
+
+  // Botón te amo
+  function triggerLove() {
+    for(let i=0; i<30; i++) {
+      setTimeout(() => {
+        const h = document.createElement('div');
+        h.className = 'heart';
+        h.textContent = ['❤️','💖','💕','💗','💝','🌸'][Math.floor(Math.random()*6)];
+        h.style.left = Math.random()*100 + 'vw';
+        h.style.fontSize = (Math.random()*2+1) + 'rem';
+        h.style.animationDuration = (Math.random()*3+3) + 's';
+        h.style.animationDelay = Math.random()*1 + 's';
+        document.getElementById('heartsContainer').appendChild(h);
+        setTimeout(() => h.remove(), 7000);
+      }, i*100);
+    }
+  }
+</script>
+{% endblock %}

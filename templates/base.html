@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Oscar Heyton — Portfolio{% endblock %}</title>
+  <meta name="description" content="Desarrollador Backend & Web — Python, Flask, MySQL, JavaScript">
+  <meta name="keywords" content="desarrollador, backend, flask, python, portfolio">
+  <meta name="author" content="Oscar Heyton Sanchez Arias">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- AOS -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">&lt;/&gt; OH</div>
+  <div class="loader-bar"><div class="loader-progress"></div></div>
+  <div class="loader-text">CARGANDO SISTEMA...</div>
+</div>
+
+<!-- ANIMATED BG -->
+<div class="bg-animated">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+  <div class="bg-orb bg-orb-3"></div>
+</div>
+<div class="grid-bg"></div>
+
+<!-- SNOW -->
+<div id="snow-container"></div>
+
+<!-- HEARTS (solo novia) -->
+<div class="hearts-container" id="heartsContainer"></div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="/" class="nav-logo">&lt;/&gt; <span>Oscar Heyton</span></a>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/#inicio" class="nav-link">Inicio</a></li>
+    <li><a href="/sobre" class="nav-link">Sobre mí</a></li>
+    <li><a href="/novia" class="nav-link nav-special">💖 Mi Persona Especial</a></li>
+    <li><a href="/habilidades" class="nav-link">Habilidades</a></li>
+    <li><a href="/proyectos" class="nav-link">Proyectos</a></li>
+    <li><a href="/experiencia" class="nav-link">Experiencia</a></li>
+    <li><a href="/familia" class="nav-link nav-special" style="color:#a855f7;">👨‍👩‍👧‍👦 Mi Familia</a></li>
+    <li><a href="/contacto" class="nav-link">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- MAIN -->
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2024 <span>Oscar Heyton Sanchez Arias</span> — Desarrollado con 💙 en Python & Flask</p>
+</footer>
+
+<!-- SCROLL TOP -->
+<button id="scrollTop"><i class="fas fa-chevron-up"></i></button>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="imgModal">
+  <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+  <img src="" alt="" class="modal-img" id="modalImg">
+</div>
+
+
+<!-- MUSIC PLAYER -->
+<div id="musicPlayer" style="position:fixed;bottom:2rem;right:2rem;z-index:9999;background:rgba(10,15,30,0.92);border:1px solid rgba(0,174,255,0.25);border-radius:16px;padding:0.8rem 1.2rem;display:flex;align-items:center;gap:0.75rem;backdrop-filter:blur(20px);box-shadow:0 0 30px rgba(0,174,255,0.15);min-width:220px;transition:all 0.3s;">
+  <audio id="bgMusic" src="{{ url_for('static', filename='audio/citypop.mp3') }}" loop preload="auto"></audio>
+  <button id="musicToggle" onclick="toggleMusic()" style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(0,174,255,0.4);background:rgba(0,174,255,0.1);color:var(--neon-blue);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.3s;">
+    <i class="fas fa-play" id="musicIcon"></i>
+  </button>
+  <div style="flex:1;min-width:0;">
+    <div style="font-family:'Orbitron',sans-serif;font-size:0.6rem;letter-spacing:2px;color:var(--text-muted);margin-bottom:2px;">CITY POP VIBES</div>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;color:var(--neon-blue);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🎵 citypop.mp3</div>
+    <div id="musicProgress" style="margin-top:4px;height:2px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;">
+      <div id="musicBar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--neon-blue),var(--neon-purple));transition:width 0.5s;"></div>
+    </div>
+  </div>
+  <button onclick="document.getElementById('musicPlayer').style.display='none'" style="width:20px;height:20px;border:none;background:none;color:var(--text-muted);cursor:pointer;font-size:0.7rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">✕</button>
+</div>
+
+<script>
+const music = document.getElementById('bgMusic');
+const icon = document.getElementById('musicIcon');
+const bar = document.getElementById('musicBar');
+let playing = false;
+
+// Evita que el navegador pause el audio al cambiar de pestaña
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && playing) {
+    // Forzar reanudación cuando la pestaña vuelve a estar activa
+    // No pausamos intencionalmente — el navegador puede pausar, pero lo reactivamos
+  }
+  if (!document.hidden && playing) {
+    music.play().catch(() => {});
+  }
+});
+
+// Intercepta el evento de pause solo si no fue el usuario
+music.addEventListener('pause', () => {
+  if (playing && document.hidden) {
+    // El navegador lo pausó por cambio de pestaña — lo reiniciamos al volver
+  } else if (playing && !document.hidden) {
+    // No debería pausarse sólo, forzamos play
+    setTimeout(() => {
+      if (playing) music.play().catch(() => {});
+    }, 100);
+  }
+});
+
+function toggleMusic() {
+  if (playing) {
+    playing = false;
+    music.pause();
+    icon.className = 'fas fa-play';
+  } else {
+    playing = true;
+    music.play().catch(() => {});
+    icon.className = 'fas fa-pause';
+  }
+}
+
+music.addEventListener('timeupdate', () => {
+  if (music.duration) {
+    bar.style.width = (music.currentTime / music.duration * 100) + '%';
+  }
+});
+</script>
+
+<!-- Scripts -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>
